@@ -5,7 +5,7 @@
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
 .vs/
-/RepositoryNook/CCA.Services.RepositoryNook/CCA.Services.RepositoryNook/obj
-/RepositoryNook/CCA.Services.RepositoryNook/CCA.Services.RepositoryNook/bin
+/RepositoryNook/CCA.Services.RepositoryNook/obj
+/RepositoryNook/CCA.Services.RepositoryNook/bin
 /DevOpsGenieService/bin
 /DevOpsGenieService/obj
