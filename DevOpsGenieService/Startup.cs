@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using DevOpsGenieService.Tenant;
+using DevOpsGenieService.Common;
+using System.Net.Http;
 
 namespace DevOpsGenieService
 {
@@ -25,10 +27,23 @@ namespace DevOpsGenieService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .WithMethods("Get", "Post", "Put")
+                    .AllowAnyHeader());
+            });
+
+            services.AddControllers().AddNewtonsoftJson(
+                OptionsBuilderConfigurationExtensions =>
+                OptionsBuilderConfigurationExtensions.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
 
             // injectables
-            services.AddTransient<ITenantConfigService, TenantConfigService>();   
+            services.AddTransient<HttpClient>();
+            services.AddTransient<ITenantConfigService, TenantConfigService>();
+            services.AddTransient<IRepository, Repository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +55,8 @@ namespace DevOpsGenieService
             }
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DevOpsGenieService.Tenant;
+using System.Text.Json;
+using Newtonsoft.Json.Linq;
 
 namespace DevOpsGenieService.Controllers
 {
@@ -13,14 +15,15 @@ namespace DevOpsGenieService.Controllers
     public class TenantController : ControllerBase
     {
         //GET: tenant/config
-        [HttpGet("{id}/config")]
+        [HttpGet("{tenantId}/config")]
         public ActionResult<string> GetConfig([FromServices]ITenantConfigService svc)
         {
             return Ok(svc.ReadConfig());
         }
-        [HttpPost("{id}/config")]
-        public void PostConfig()
+        [HttpPost("{tenantId}/config")]
+        public ActionResult<string> PostConfig([FromServices]ITenantConfigService svc, string tenantId, [FromBody]JToken body)
         {
+            return Ok(svc.CreateConfig(body));
         }
 
         /*        // GET: Tenant
