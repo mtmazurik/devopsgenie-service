@@ -12,7 +12,7 @@ using DevopsGenie.Service.Common.Models;
 
 namespace DevopsGenie.Service.Common
 {
-    // DAL that uses the RepositoryModel (an exact RepoNook model object, must match the Reponook model from DevopsGenie-Reponook service )
+    // DAL that uses the RepositoryModel (an exact RepoNook model object, must match the Reponook model from DevopsGenie-Reponook service)
     public class Repository : IRepository
     {
         private readonly string REPONOOK_URI_PORT = "http://10.1.1.13:8191";
