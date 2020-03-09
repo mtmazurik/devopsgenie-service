@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using DevOpsGenieService.Tenant;
+using DevopsGenie.Service.Tenant;
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
 
-namespace DevOpsGenieService.Controllers
+namespace DevopsGenie.Service.Controllers
 {
     [ApiController]
     [Route("[controller]")]

@@ -1,9 +1,9 @@
-﻿using DevOpsGenieService.Common;
+﻿using DevopsGenie.Service.Common;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
 
-namespace DevOpsGenieService.Tenant
+namespace DevopsGenie.Service.Tenant
 {
     public interface ITenantConfigService
     {

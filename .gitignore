@@ -7,5 +7,5 @@
 .vs/
 /obj
 /bin
-/DevOpsGenieService/bin
-/DevOpsGenieService/obj
+/devopsgenie-svc/bin
+/devopsgenie-svc/obj

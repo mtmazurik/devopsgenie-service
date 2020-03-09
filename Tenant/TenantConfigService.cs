@@ -1,4 +1,4 @@
-﻿using DevOpsGenieService.Common;
+﻿using DevopsGenie.Service.Common;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DevOpsGenieService.Tenant
+namespace DevopsGenie.Service.Tenant
 {
     //
     // C.R.U. for Tenant Configuration
@@ -15,8 +15,8 @@ namespace DevOpsGenieService.Tenant
 
     public class TenantConfigService : ITenantConfigService
     {
-        private readonly string CONFIG_DB_NAME = "Tenant";
-        private readonly string CONFIG_COLLECTION_NAME = "Config";
+        private readonly string CONFIG_DB_NAME = "tenant";
+        private readonly string CONFIG_COLLECTION_NAME = "config";
 
         private IRepository _repository;
         public TenantConfigService(IRepository repository)

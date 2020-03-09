@@ -2,7 +2,7 @@
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
 
-namespace DevOpsGenieService.Common
+namespace DevopsGenie.Service.Common
 {
     public interface IRepository
     {

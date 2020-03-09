@@ -6,16 +6,16 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["DevOpsGenieService.csproj", ""]
-RUN dotnet restore "./DevOpsGenieService.csproj"
+COPY ["devopsgenie-svc.csproj", ""]
+RUN dotnet restore "./devopsgenie-svc.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "DevOpsGenieService.csproj" -c Release -o /app/build
+RUN dotnet build "devopsgenie-svc.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "DevOpsGenieService.csproj" -c Release -o /app/publish
+RUN dotnet publish "devopsgenie-svc.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "DevOpsGenieService.dll"]
+ENTRYPOINT ["dotnet", "devopsgenie-svc.dll"]

@@ -1,10 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
-    <StartupObject>DevOpsGenieService.Program</StartupObject>
+    <StartupObject>DevopsGenie.Service.Program</StartupObject>
+    <RootNamespace>DevopsGenie.Service</RootNamespace>
+    <AssemblyName>DevopsGenie.Service</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

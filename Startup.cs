@@ -9,11 +9,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using DevOpsGenieService.Tenant;
-using DevOpsGenieService.Common;
+using DevopsGenie.Service.Tenant;
+using DevopsGenie.Service.Common;
 using System.Net.Http;
 
-namespace DevOpsGenieService
+namespace DevopsGenie.Service
 {
     public class Startup
     {
