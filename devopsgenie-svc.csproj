@@ -4,9 +4,11 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
-    <StartupObject>DevopsGenie.Service.Program</StartupObject>
+    <StartupObject></StartupObject>
     <RootNamespace>DevopsGenie.Service</RootNamespace>
     <AssemblyName>DevopsGenie.Service</AssemblyName>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
