@@ -5,19 +5,19 @@ pipeline {
   }
   agent any
   stages {
-    stage('reponook') {
+    stage('Pull DevopsGenie Service source code') {
       steps {
         git 'https://github.com/mtmazurik/devopsgenie-service.git'
       }
     }
-    stage('Building image') {
+    stage('Building Docker image') {
       steps{
         script {
           dockerImage = docker.build registry + ":latest"
         }
       }
     }
-    stage('Deploy Image') {
+    stage('Push Docker Image to DockerHub') {
       steps{
         script {
           docker.withRegistry( '', registryCredential) {
