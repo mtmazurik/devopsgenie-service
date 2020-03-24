@@ -5,8 +5,10 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
     <StartupObject>DevopsGenie.Service.Program</StartupObject>
-    <RootNamespace>DevopsGenie.Service</RootNamespace>
-    <AssemblyName>DevopsGenie.Service</AssemblyName>
+    <RootNamespace>devopsgenie.service</RootNamespace>
+    <AssemblyName>devopsgenie.service</AssemblyName>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
