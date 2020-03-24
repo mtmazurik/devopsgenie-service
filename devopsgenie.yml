@@ -1,0 +1,33 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dog
+  template:
+    metadata:
+      labels:
+        app: dog
+    spec:
+      containers:
+      - name: dog-pod
+        image: docker.io/mtmazurik/devopsgenie-service:latest
+        imagePullPolicy: Always
+        ports:
+        - name: dog-port
+          containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /admin/ping
+            port: 80
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /admin/ping
+            port: 80
+          initialDelaySeconds: 30
+          timeoutSeconds: 30

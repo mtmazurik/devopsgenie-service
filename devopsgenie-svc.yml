@@ -1,0 +1,15 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: dog-svc
+  labels:
+    app: dog
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8190
+      targetPort: dog-port
+      protocol: TCP
+      name: http
+  selector:
+    app: dog

@@ -26,5 +26,15 @@ pipeline {
         }
       }
     }
+    stage('K8s deploy') {
+      steps{
+        script {
+          kubernetesDeploy(
+              kubeconfigId: 'k8s-ubuntu',
+              configs: 'devopsgenie*.yml'
+          )
+        }
+      }
+    }
   }
 }
