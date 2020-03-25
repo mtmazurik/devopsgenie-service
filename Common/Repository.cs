@@ -15,7 +15,7 @@ namespace DevopsGenie.Service.Common
     // DAL that uses the RepositoryModel (an exact RepoNook model object, must match the Reponook model from DevopsGenie-Reponook service)
     public class Repository : IRepository
     {
-        private readonly string REPONOOK_URI_PORT = "http://dogreponook:8191";
+        private readonly string REPONOOK_URI_PORT = "http://dogreponook.default.svc.cluster.local:8191";
         private HttpClient _client;
 
         public Repository(HttpClient client)
