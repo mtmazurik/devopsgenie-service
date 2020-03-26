@@ -21,12 +21,21 @@ namespace devopsgenie.service.Config
         }
 
 
-        public string DevopsGenieRepoNook
+        public string DOGREPONOOK_URI
         {
             get
             {
-                string connectionString = _configuration["DOGREPONOOK"];
-                if (connectionString is null) throw new ConfigFileReadError("Check appsettings.json; DevopsGenieReponook not found.");
+                string connectionString = _configuration["DOGREPONOOK_URI"];
+                if (connectionString is null) throw new ConfigFileReadError("Check appsettings.json; DOGREPONOOK_URI not found.");
+                return connectionString;
+            }
+        }
+        public string DOGREPONOOK_PORT
+        {
+            get
+            {
+                string connectionString = _configuration["DOGREPONOOK_PORT"];
+                if (connectionString is null) throw new ConfigFileReadError("Check appsettings.json; DOGREPONOOK_PORT not found.");
                 return connectionString;
             }
         }

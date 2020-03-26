@@ -24,7 +24,7 @@ namespace DevopsGenie.Service.Common
         {
             _client = client;
             _config = config;
-            REPONOOK_URI = _config.DevopsGenieRepoNook + ":8191";
+            REPONOOK_URI = _config.DOGREPONOOK_URI + _config.DOGREPONOOK_PORT;
         }
 
         public async Task<string> CreateDocumentAsync(string db, string collection, JToken document)

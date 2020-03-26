@@ -2,6 +2,7 @@
 {
     public interface IJsonConfiguration
     {
-        string DevopsGenieRepoNook { get; }
+        string DOGREPONOOK_URI { get; }
+        string DOGREPONOOK_PORT { get; }
     }
 }
