@@ -9,18 +9,22 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using DevopsGenie.Service.Common.Models;
+using devopsgenie.service.Config;
 
 namespace DevopsGenie.Service.Common
 {
     // DAL that uses the RepositoryModel (an exact RepoNook model object, must match the Reponook model from DevopsGenie-Reponook service)
     public class Repository : IRepository
     {
-        private readonly string REPONOOK_URI_PORT = "http://dogreponook.default.svc.cluster.local:8191";
+        private readonly string REPONOOK_URI;
         private HttpClient _client;
+        private IJsonConfiguration _config;
 
-        public Repository(HttpClient client)
+        public Repository(HttpClient client, IJsonConfiguration config)
         {
             _client = client;
+            _config = config;
+            REPONOOK_URI = _config.DevopsGenieRepoNook + ":8191";
         }
 
         public async Task<string> CreateDocumentAsync(string db, string collection, JToken document)
@@ -46,7 +50,7 @@ namespace DevopsGenie.Service.Common
             HttpContent body = new StringContent(JsonConvert.SerializeObject(repoObject), Encoding.UTF8, "application/json");
 
 
-            string URI = REPONOOK_URI_PORT + "/" + db + "/" + collection;
+            string URI = REPONOOK_URI + "/" + db + "/" + collection;
 
             using (var response =  _client.PostAsync(URI, body ).Result)
             {

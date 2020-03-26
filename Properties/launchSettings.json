@@ -29,7 +29,10 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://localhost:{ServicePort}",
       "publishAllPorts": true,
-      "httpPort":  8190
+      "httpPort": 8190,
+      "environmentVariabls": {
+        "DOGREPONOOK-SVC" :  "http://localhost:8191"
+      }
     }
   }
 }

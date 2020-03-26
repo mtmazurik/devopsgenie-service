@@ -19,6 +19,9 @@ spec:
         ports:
         - name: dog-port
           containerPort: 80
+        env:
+        - name: DOGREPONOOK-SVC
+          value: dogreponook-svc
         livenessProbe:
           httpGet:
             path: /admin/ping

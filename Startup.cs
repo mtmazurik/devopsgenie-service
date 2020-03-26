@@ -12,14 +12,19 @@ using Microsoft.Extensions.Logging;
 using DevopsGenie.Service.Tenant;
 using DevopsGenie.Service.Common;
 using System.Net.Http;
+using devopsgenie.service.Config;
 
 namespace DevopsGenie.Service
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private ILoggerFactory _loggerFactory;                                                          // use built in ASPNetCore logging 
+        private ILogger<Startup> _logger;
+
+        public Startup(ILogger<Startup> logger, ILoggerFactory loggerFactory)  //ctor
         {
-            Configuration = configuration;
+            _logger = logger;
+            _loggerFactory = loggerFactory;
         }
 
         public IConfiguration Configuration { get; }
@@ -43,6 +48,7 @@ namespace DevopsGenie.Service
             // injectables
             services.AddTransient<HttpClient>();
             services.AddTransient<ITenantConfigService, TenantConfigService>();
+            services.AddTransient<IJsonConfiguration, JsonConfiguration>();
             services.AddTransient<IRepository, Repository>();
         }
 
