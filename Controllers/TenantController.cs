@@ -23,6 +23,7 @@ namespace DevopsGenie.Service.Controllers
         [HttpPost("{tenantId}/config")]
         public ActionResult<string> PostConfig([FromServices]ITenantConfigService svc, string tenantId, [FromBody]JToken body)
         {
+
             return Ok(svc.CreateConfig(body));
         }
 

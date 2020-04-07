@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using DevopsGenie.Service.Common.Models;
 using devopsgenie.service.Config;
+using devopsgenie.service.Common;
 
 namespace DevopsGenie.Service.Common
 {
@@ -19,11 +20,13 @@ namespace DevopsGenie.Service.Common
         private readonly string REPONOOK_URI;
         private HttpClient _client;
         private IJsonConfiguration _config;
+        private IEncryption _encryption;
 
-        public Repository(HttpClient client, IJsonConfiguration config)
+        public Repository(HttpClient client, IJsonConfiguration config, IEncryption encryption)
         {
             _client = client;
             _config = config;
+            _encryption = encryption;
             REPONOOK_URI = _config.DOGREPONOOK_URI + _config.DOGREPONOOK_PORT;
         }
 
@@ -37,6 +40,7 @@ namespace DevopsGenie.Service.Common
             repoObject.key = "key";
             repoObject.tags = new string[] { "tag1", "tag2"};
             repoObject.createdBy = "DOG-SVC";
+            _encryption.EncryptionKey = repoObject.createdBy;
             repoObject.createdDate = DateTime.Now;
             repoObject.modifiedBy = "DOG-SVC";
             repoObject.modifiedDate = DateTime.Now;
@@ -45,7 +49,7 @@ namespace DevopsGenie.Service.Common
             repoObject.collection = "config";
             repoObject.validate = false;
             repoObject.schemaUri = "";
-            repoObject.data = document.ToString();
+            repoObject.data = _encryption.encrypt(document.ToString());
 
             HttpContent body = new StringContent(JsonConvert.SerializeObject(repoObject), Encoding.UTF8, "application/json");
 

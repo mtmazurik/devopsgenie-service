@@ -13,6 +13,7 @@ using DevopsGenie.Service.Tenant;
 using DevopsGenie.Service.Common;
 using System.Net.Http;
 using devopsgenie.service.Config;
+using devopsgenie.service.Common;
 
 namespace DevopsGenie.Service
 {
@@ -50,6 +51,7 @@ namespace DevopsGenie.Service
             services.AddTransient<ITenantConfigService, TenantConfigService>();
             services.AddTransient<IJsonConfiguration, JsonConfiguration>();
             services.AddTransient<IRepository, Repository>();
+            services.AddTransient<IEncryption, Encryption>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
