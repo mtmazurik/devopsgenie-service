@@ -7,7 +7,7 @@ namespace DevopsGenie.Service.Tenant
 {
     public interface ITenantConfigService
     {
-        Task<string> CreateConfig(JToken s);
-        Task<string> ReadConfig();
+        string CreateConfig(JToken s);
+        string ReadConfig();
     }
 }

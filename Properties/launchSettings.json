@@ -30,8 +30,9 @@
       "launchUrl": "{Scheme}://localhost:{ServicePort}",
       "publishAllPorts": true,
       "httpPort": 8190,
-      "environmentVariabls": {
-        "DOGREPONOOK-SVC" :  "http://localhost:8191"
+      "environmentVariables": {
+        "DOGREPONOOK_URI": "http://127.0.0.1",
+        "DOGREPONOOK_PORT": "8191"
       }
     }
   }

@@ -27,10 +27,10 @@ namespace DevopsGenie.Service.Common
             _client = client;
             _config = config;
             _encryption = encryption;
-            REPONOOK_URI = _config.DOGREPONOOK_URI + _config.DOGREPONOOK_PORT;
+            REPONOOK_URI = _config.DOGREPONOOK_URI + ":" + _config.DOGREPONOOK_PORT;
         }
 
-        public async Task<string> CreateDocumentAsync(string db, string collection, JToken document)
+        public string CreateDocument(string db, string collection, JToken document)
         {
             string apiResponse;
 
@@ -49,18 +49,30 @@ namespace DevopsGenie.Service.Common
             repoObject.collection = "config";
             repoObject.validate = false;
             repoObject.schemaUri = "";
-            repoObject.data = _encryption.encrypt(document.ToString());
+            repoObject.data = document.ToString(); // JsonConvert.ToString(_encryption.encrypt(document.ToString()));
 
             HttpContent body = new StringContent(JsonConvert.SerializeObject(repoObject), Encoding.UTF8, "application/json");
 
+            string uri = REPONOOK_URI + "/" + db + "/" + collection;
 
-            string URI = REPONOOK_URI + "/" + db + "/" + collection;
+            HttpResponseMessage result = _client.SendAsync(FormatRequest(HttpMethod.Post, uri, body)).Result;
 
-            using (var response =  _client.PostAsync(URI, body ).Result)
-            {
-                apiResponse = await response.Content.ReadAsStringAsync();
-            }
+            apiResponse = result.Content.ReadAsStringAsync().Result;
+
             return apiResponse;
+        }
+        private HttpRequestMessage FormatRequest(HttpMethod method, string uri, HttpContent content = null)
+        {
+            HttpRequestMessage retRequest = new HttpRequestMessage()
+            {
+                RequestUri = new Uri(uri),
+                Method = method
+            };
+
+            retRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            retRequest.Content = content;
+
+            return retRequest;
         }
 
     }

@@ -24,14 +24,14 @@ namespace DevopsGenie.Service.Tenant
             _repository = repository;
         }
 
-        public async Task<string> CreateConfig(JToken configInfo)
+        public string CreateConfig(JToken configInfo)
         {
-            return await _repository.CreateDocumentAsync(CONFIG_DB_NAME, CONFIG_COLLECTION_NAME, configInfo);
+            return _repository.CreateDocument(CONFIG_DB_NAME, CONFIG_COLLECTION_NAME, configInfo);
         }
 
-        public async Task<string> ReadConfig()
+        public string ReadConfig()
         {
-            return await Task.FromResult("NYI-not yet implemented");   // placeholder for async call to gRPC -> RepoNook
+            return  "NYI-not yet implemented";   // placeholder for async call to gRPC -> RepoNook
         }
 
     }
