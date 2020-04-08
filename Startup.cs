@@ -22,10 +22,9 @@ namespace DevopsGenie.Service
         private ILoggerFactory _loggerFactory;                                                          // use built in ASPNetCore logging 
         private ILogger<Startup> _logger;
 
-        public Startup(ILogger<Startup> logger, ILoggerFactory loggerFactory)  //ctor
+        public Startup()  //ctor
         {
-            _logger = logger;
-            _loggerFactory = loggerFactory;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -55,8 +54,10 @@ namespace DevopsGenie.Service
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger, ILoggerFactory loggerFactory)
         {
+            _logger = logger;
+            _loggerFactory = loggerFactory;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
