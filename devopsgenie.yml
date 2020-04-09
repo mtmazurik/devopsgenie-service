@@ -26,7 +26,7 @@ spec:
               name: dog-reponook-uri-info 
               key: dog-reponook-uri
         - name: DOGREPONOOK-PORT
-          valueFrom: og-reponook-port
+          valueFrom: dog-reponook-port
             secretKeyRef:
               name: dog-reponook-uri-info
               key: dog-reponook-port
