@@ -21,9 +21,15 @@ spec:
           containerPort: 80
         env:
         - name: DOGREPONOOK-URI
-          value: dogreponook-svc
+          valueFrom:
+            secretKeyRef:
+              name: dog-reponook-uri-info 
+              key: dog-reponook-uri
         - name: DOGREPONOOK-PORT
-          value: 8191
+          valueFrom: og-reponook-port
+            secretKeyRef:
+              name: dog-reponook-uri-info
+              key: dog-reponook-port
         livenessProbe:
           httpGet:
             path: /admin/ping

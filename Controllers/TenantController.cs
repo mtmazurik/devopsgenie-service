@@ -16,47 +16,24 @@ namespace DevopsGenie.Service.Controllers
     {
         //GET: tenant/config
         [HttpGet("{tenantId}/config")]
-        public ActionResult<string> GetConfig([FromServices]ITenantConfigService svc)
+        public ActionResult<string> GetConfig([FromServices]ITenantConfigService tenantConfigSvc)
         {
-            return Ok(svc.ReadConfig());
+            try
+            {
+                string result = tenantConfigSvc.ReadConfig();
+                return Ok(result);
+            }
+            catch(Exception exc)
+            {
+                return BadRequest(exc.Message);
+            }
+
         }
-        [HttpPost("{tenantId}/config")]
-        public ActionResult<string> PostConfig([FromServices]ITenantConfigService svc, string tenantId, [FromBody]JToken body)
-        {
+        //[HttpPost("{tenantId}/config")]
+        //public ActionResult<string> PostConfig([FromServices]ITenantConfigService svc, string tenantId, [FromBody]JToken body)
+        //{
 
-            return Ok(svc.CreateConfig(body));
-        }
-
-        /*        // GET: Tenant
-                [HttpGet]
-                public IEnumerable<string> Get()
-                {
-                    return new string[] { "value1", "value2" };
-                }
-
-                // GET: Tenant/5
-                [HttpGet("{id}", Name = "Get")]
-                public string Get(int id)
-                {
-                    return "value";
-                }
-
-                // POST: Tenant
-                [HttpPost]
-                public void Post([FromBody] string value)
-                {
-                }
-
-                // PUT: Tenant/5
-                [HttpPut("{id}")]
-                public void Put(int id, [FromBody] string value)
-                {
-                }
-
-                // DELETE: ApiWithActions/5
-                [HttpDelete("{id}")]
-                public void Delete(int id)
-                {
-                }*/
+        //    return Ok(svc.CreateConfig(body));
+        //}
     }
 }
