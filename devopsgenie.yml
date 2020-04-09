@@ -20,16 +20,16 @@ spec:
         - name: dog-port
           containerPort: 80
         env:
-        - name: DOGREPONOOK-URI
-          valueFrom:
-            secretKeyRef:
-              name: dog-reponook-uri-info 
-              key: dog-reponook-uri
-        - name: DOGREPONOOK-PORT
-          valueFrom: dog-reponook-port
-            secretKeyRef:
-              name: dog-reponook-uri-info
-              key: dog-reponook-port
+          - name: DOGREPONOOK-URI
+            valueFrom:
+              secretKeyRef:
+                name: dog-reponook-uri-info 
+                key: dog-reponook-uri
+          - name: DOGREPONOOK-PORT
+            valueFrom: dog-reponook-port
+              secretKeyRef:
+                name: dog-reponook-uri-info
+                key: dog-reponook-port
         livenessProbe:
           httpGet:
             path: /admin/ping
