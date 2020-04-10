@@ -24,12 +24,12 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: dog-reponook-uri-info 
-                key: dog-reponook-uri
+                key: "dog-reponook-uri"
           - name: DOGREPONOOK-PORT
             valueFrom: dog-reponook-port
               secretKeyRef:
                 name: dog-reponook-uri-info
-                key: dog-reponook-port
+                key: "dog-reponook-port"
         livenessProbe:
           httpGet:
             path: /admin/ping
