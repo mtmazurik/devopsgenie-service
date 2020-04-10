@@ -49,7 +49,7 @@ namespace DevopsGenie.Service.Common
             repoObject.collection = "config";
             repoObject.validate = false;
             repoObject.schemaUri = "";
-            repoObject.data = JsonConvert.ToString(document); // _encryption.encrypt(document);
+            repoObject.data = JsonConvert.SerializeObject(document); // _encryption.encrypt(document);
 
             HttpContent body = new StringContent(JsonConvert.SerializeObject(repoObject), Encoding.UTF8, "application/json");
 
