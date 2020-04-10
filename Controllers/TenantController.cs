@@ -14,26 +14,35 @@ namespace DevopsGenie.Service.Controllers
     [Route("[controller]")]
     public class TenantController : ControllerBase
     {
-        //GET: tenant/config
-        [HttpGet("{tenantId}/config")]
-        public ActionResult<string> GetConfig([FromServices]ITenantConfigService tenantConfigSvc)
+        [HttpPost("{tenantId}/config")]
+        public ActionResult<string> PostConfig([FromServices]ITenantConfigService tenantConfigSvc, string tenantId, [FromBody]JToken body)
         {
             try
             {
-                string result = tenantConfigSvc.ReadConfig();
+                string result = tenantConfigSvc.CreateConfig(body);
                 return Ok(result);
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 return BadRequest(exc.Message);
             }
-
         }
-        //[HttpPost("{tenantId}/config")]
-        //public ActionResult<string> PostConfig([FromServices]ITenantConfigService svc, string tenantId, [FromBody]JToken body)
-        //{
 
-        //    return Ok(svc.CreateConfig(body));
+        //GET: tenant/config
+        [HttpGet("{tenantId}/config")]
+        //public ActionResult<string> GetConfig([FromServices]ITenantConfigService tenantConfigSvc)
+        //{
+        //    try
+        //    {
+        //        string result = tenantConfigSvc.ReadConfig();
+        //        return Ok(result);
+        //    }
+        //    catch(Exception exc)
+        //    {
+        //        return BadRequest(exc.Message);
+        //    }
+
         //}
+
     }
 }
