@@ -20,7 +20,7 @@ namespace DevopsGenie.Service.Controllers
             return Ok("200 OK");
         }
         [HttpPost("{tenantId}/config")]
-        public ActionResult<string> PostConfig(string tenantId, [FromBody]JToken body, [FromServices]ITenantConfigService tenantConfigSvc)
+        public ActionResult<string> PostConfig(string tenantId, [FromBody]string body, [FromServices]ITenantConfigService tenantConfigSvc)
         {
             try
             {

@@ -30,7 +30,7 @@ namespace DevopsGenie.Service.Common
             REPONOOK_URI = _config.DOGREPONOOK_URI + ":" + _config.DOGREPONOOK_PORT;
         }
 
-        public string CreateDocument(string db, string collection, JToken document)
+        public string CreateDocument(string db, string collection, string document)
         {
             string apiResponse;
 
@@ -49,7 +49,7 @@ namespace DevopsGenie.Service.Common
             repoObject.collection = "config";
             repoObject.validate = false;
             repoObject.schemaUri = "";
-            repoObject.data = document.ToString(); // JsonConvert.ToString(_encryption.encrypt(document.ToString()));
+            repoObject.data = document; // _encryption.encrypt(document);
 
             HttpContent body = new StringContent(JsonConvert.SerializeObject(repoObject), Encoding.UTF8, "application/json");
 

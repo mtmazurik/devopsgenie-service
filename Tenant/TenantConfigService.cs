@@ -24,7 +24,7 @@ namespace DevopsGenie.Service.Tenant
             _repository = repository;
         }
 
-        public string CreateConfig(JToken configInfo)
+        public string CreateConfig(string configInfo)
         {
             return _repository.CreateDocument(CONFIG_DB_NAME, CONFIG_COLLECTION_NAME, configInfo);
         }
