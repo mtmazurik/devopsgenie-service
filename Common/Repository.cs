@@ -28,7 +28,6 @@ namespace DevopsGenie.Service.Common
             _client = client;
             _config = config;
             _encryption = encryption;
-            REPONOOK_URI = _config.DOGREPONOOK_URI + ":" + _config.DOGREPONOOK_PORT;
         }
 
         public string CreateDocument(string db, string collection, string document)
@@ -54,13 +53,24 @@ namespace DevopsGenie.Service.Common
 
             HttpContent body = new StringContent(JsonConvert.SerializeObject(repoObject), Encoding.UTF8, "application/json");
 
-            string uri = REPONOOK_URI + "/" + db + "/" + collection;
+            string uri = DecodeURI();
+            uri = uri + "/" + db + "/" + collection;
 
             HttpResponseMessage result = _client.SendAsync(FormatRequest(HttpMethod.Post, uri, body)).Result;
 
             apiResponse = result.Content.ReadAsStringAsync().Result;
 
             return apiResponse;
+        }
+        private string DecodeURI()  // base 64 encoded into the secrets file we decode here
+        {
+            byte[] data = Convert.FromBase64String(_config.DOGREPONOOK_URI);
+            string dogReponookURI = Encoding.UTF8.GetString(data);
+
+            data = Convert.FromBase64String(_config.DOGREPONOOK_PORT);
+            string dogReponookPort = Encoding.UTF8.GetString(data);
+
+            return dogReponookURI + ":" + dogReponookPort;
         }
         private HttpRequestMessage FormatRequest(HttpMethod method, string uri, HttpContent content = null)
         {
