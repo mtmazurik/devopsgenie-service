@@ -18,7 +18,7 @@ namespace DevopsGenie.Service.Common
     // DAL that uses the RepositoryModel (an exact RepoNook model object, must match the Reponook model from DevopsGenie-Reponook service)
     public class Repository : IRepository
     {
-        private readonly string REPONOOK_URI;
+        private string REPONOOK_URI;
         private HttpClient _client;
         private IJsonConfiguration _config;
         private IEncryption _encryption;
@@ -29,7 +29,6 @@ namespace DevopsGenie.Service.Common
             _config = config;
             _encryption = encryption;
             REPONOOK_URI = _config.DOGREPONOOK_URI + ":" + _config.DOGREPONOOK_PORT;
-            throw new ConfigFileReadError(REPONOOK_URI);
         }
 
         public string CreateDocument(string db, string collection, string document)
