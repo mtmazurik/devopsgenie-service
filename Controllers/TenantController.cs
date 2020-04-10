@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using DevopsGenie.Service.Tenant;
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
+using devopsgenie.service.Common.Models;
 
 namespace DevopsGenie.Service.Controllers
 {
@@ -15,11 +16,11 @@ namespace DevopsGenie.Service.Controllers
     public class TenantController : ControllerBase
     {
         [HttpPost("{tenantId}/config")]
-        public ActionResult<string> PostConfig([FromServices]ITenantConfigService tenantConfigSvc, string tenantId, [FromBody]string body) 
+        public ActionResult<string> PostConfig([FromServices]ITenantConfigService tenantConfigSvc, string tenantId, [FromBody]InnerDataModel innerData) 
         {
             try
             {
-                return Ok(body);
+                return Ok(innerData.Body);
                 //string result = tenantConfigSvc.CreateConfig(body);
                 //return Ok(result);
             }
