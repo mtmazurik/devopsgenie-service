@@ -55,7 +55,7 @@ namespace DevopsGenie.Service.Common
 
             string uri = BuildURI();
             uri = uri + "/" + db + "/" + collection;
-            return uri;
+
             HttpResponseMessage result = _client.SendAsync(FormatRequest(HttpMethod.Post, uri, body)).Result;
 
             apiResponse = result.Content.ReadAsStringAsync().Result;
@@ -70,7 +70,7 @@ namespace DevopsGenie.Service.Common
             //data = Convert.FromBase64String(_config.DOGREPONOOK_PORT);
             //string dogReponookPort = Encoding.UTF8.GetString(data);
 
-            return _config.DOGREPONOOK_URI + ":" + _config.DOGREPONOOK_PORT;
+            return "http://" + _config.DOGREPONOOK_URI + ":" + _config.DOGREPONOOK_PORT;
         }
         private HttpRequestMessage FormatRequest(HttpMethod method, string uri, HttpContent content = null)
         {
