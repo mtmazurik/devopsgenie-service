@@ -19,8 +19,9 @@ namespace DevopsGenie.Service.Controllers
         {
             try
             {
-                string result = tenantConfigSvc.CreateConfig(body);
-                return Ok(result);
+                return Ok(body);
+                //string result = tenantConfigSvc.CreateConfig(body);
+                //return Ok(result);
             }
             catch (Exception exc)
             {
