@@ -16,7 +16,7 @@ namespace devopsgenie.service.Config
             var configBuilder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables();         // allows reading out of the local (not uploaded) launchSettings.json for Docker
+                .AddEnvironmentVariables();         //IMPORTANT!    allows reading out of the local (not uploaded) launchSettings.json for Docker
             _configuration = configBuilder.Build();
         }
 
@@ -26,7 +26,7 @@ namespace devopsgenie.service.Config
             get
             {
                 string connectionString = _configuration["DOGREPONOOK_URI"];
-                if (connectionString is null) throw new ConfigFileReadError("Check appsettings.json; DOGREPONOOK_URI not found.");
+                if (connectionString is null) throw new ConfigFileReadError("Check appsettings.json; ENV Var DOGREPONOOK_URI not found.");
                 return connectionString;
             }
         }
@@ -35,7 +35,7 @@ namespace devopsgenie.service.Config
             get
             {
                 string connectionString = _configuration["DOGREPONOOK_PORT"];
-                if (connectionString is null) throw new ConfigFileReadError("Check appsettings.json; DOGREPONOOK_PORT not found.");
+                if (connectionString is null) throw new ConfigFileReadError("Check appsettings.json; ENV Var DOGREPONOOK_PORT not found.");
                 return connectionString;
             }
         }

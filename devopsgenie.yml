@@ -20,12 +20,12 @@ spec:
         - name: dog-port
           containerPort: 80
         env:
-          - name: DOGREPONOOK-URI
+          - name: DOGREPONOOK_URI
             valueFrom:
               secretKeyRef:
                 name: dog-reponook-uri-info 
                 key: dog-reponook-uri
-          - name: DOGREPONOOK-PORT
+          - name: DOGREPONOOK_PORT
             valueFrom:
               secretKeyRef:
                 name: dog-reponook-uri-info

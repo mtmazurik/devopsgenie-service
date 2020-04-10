@@ -14,19 +14,13 @@ namespace DevopsGenie.Service.Controllers
     [Route("[controller]")]
     public class TenantController : ControllerBase
     {
-        [HttpGet("ping")]   // ping
-        public IActionResult GetPing()
-        {
-            return Ok("200 OK");
-        }
         [HttpPost("{tenantId}/config")]
-        public ActionResult<string> PostConfig(string tenantId, [FromBody]string body, [FromServices]ITenantConfigService tenantConfigSvc)
+        public ActionResult<string> PostConfig([FromServices]ITenantConfigService tenantConfigSvc, string tenantId, [FromBody]string body) 
         {
             try
             {
-                return Ok(body);
-                //string result = tenantConfigSvc.CreateConfig(body);
-                //return Ok(result);
+                string result = tenantConfigSvc.CreateConfig(body);
+                return Ok(result);
             }
             catch (Exception exc)
             {
