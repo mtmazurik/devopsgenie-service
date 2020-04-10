@@ -25,7 +25,7 @@ namespace DevopsGenie.Service.Controllers
             }
             catch (Exception exc)
             {
-                return BadRequest(exc.Message);
+                return Ok(exc.Message);
             }
         }
 
