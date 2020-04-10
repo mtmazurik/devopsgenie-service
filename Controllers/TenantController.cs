@@ -29,7 +29,7 @@ namespace DevopsGenie.Service.Controllers
         }
 
         //GET: tenant/config
-        [HttpGet("{tenantId}/config")]
+        //[HttpGet("{tenantId}/config")]
         //public ActionResult<string> GetConfig([FromServices]ITenantConfigService tenantConfigSvc)
         //{
         //    try
