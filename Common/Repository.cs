@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using DevopsGenie.Service.Common.Models;
 using devopsgenie.service.Config;
 using devopsgenie.service.Common;
+using DevopsGenie.Reponook.Exceptions;
 
 namespace DevopsGenie.Service.Common
 {
@@ -28,6 +29,7 @@ namespace DevopsGenie.Service.Common
             _config = config;
             _encryption = encryption;
             REPONOOK_URI = _config.DOGREPONOOK_URI + ":" + _config.DOGREPONOOK_PORT;
+            throw new ConfigFileReadError(REPONOOK_URI);
         }
 
         public string CreateDocument(string db, string collection, string document)
