@@ -61,7 +61,7 @@ namespace DevopsGenie.Service.Common
 
             string uri = BuildURI();
             uri = uri + "/" + db + "/" + collection;
-            return _encryption.EncryptionKey ; // debug - see what secret value is
+            // return _encryption.EncryptionKey ; // debug - see what secret value is
             HttpResponseMessage result = _client.SendAsync(FormatRequest(HttpMethod.Post, uri, body)).Result;
 
             apiResponse = result.Content.ReadAsStringAsync().Result;
