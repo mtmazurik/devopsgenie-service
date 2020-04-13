@@ -55,7 +55,7 @@ namespace DevopsGenie.Service.Common
 
             string uri = BuildURI();
             uri = uri + "/" + db + "/" + collection;
-
+            return uri; // debug - see what secret is being used
             HttpResponseMessage result = _client.SendAsync(FormatRequest(HttpMethod.Post, uri, body)).Result;
 
             apiResponse = result.Content.ReadAsStringAsync().Result;
