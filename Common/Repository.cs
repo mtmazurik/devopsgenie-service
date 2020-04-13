@@ -49,13 +49,13 @@ namespace DevopsGenie.Service.Common
             repoObject.collection = "config";
             repoObject.validate = false;
             repoObject.schemaUri = "";
-            repoObject.data = JsonConvert.SerializeObject(document); // _encryption.encrypt(document);
+            repoObject.data = _encryption.encrypt(JsonConvert.SerializeObject(document)); 
 
             HttpContent body = new StringContent(JsonConvert.SerializeObject(repoObject), Encoding.UTF8, "application/json");
 
             string uri = BuildURI();
             uri = uri + "/" + db + "/" + collection;
-            //return uri;
+
             HttpResponseMessage result = _client.SendAsync(FormatRequest(HttpMethod.Post, uri, body)).Result;
 
             apiResponse = result.Content.ReadAsStringAsync().Result;
@@ -64,12 +64,6 @@ namespace DevopsGenie.Service.Common
         }
         private string BuildURI()
         {
-            //byte[] data = Convert.FromBase64String(_config.DOGREPONOOK_URI);
-            //string dogReponookURI = Encoding.UTF8.GetString(data);
-
-            //data = Convert.FromBase64String(_config.DOGREPONOOK_PORT);
-            //string dogReponookPort = Encoding.UTF8.GetString(data);
-
             return _config.DOGREPONOOK_URI + ":" + _config.DOGREPONOOK_PORT;
         }
         private HttpRequestMessage FormatRequest(HttpMethod method, string uri, HttpContent content = null)

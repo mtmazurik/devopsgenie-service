@@ -13,7 +13,7 @@ spec:
         app: dog
     spec:
       containers:
-      - name: dog-pod
+      - name: dog
         image: docker.io/mtmazurik/devopsgenie-service:latest
         imagePullPolicy: Always
         ports:
