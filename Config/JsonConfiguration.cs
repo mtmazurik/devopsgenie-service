@@ -34,9 +34,27 @@ namespace devopsgenie.service.Config
         {
             get
             {
-                string connectionString = _configuration["DOGREPONOOK_PORT"];
-                if (connectionString is null) throw new ConfigFileReadError("Check appsettings.json; ENV Var DOGREPONOOK_PORT not found.");
-                return connectionString;
+                string port = _configuration["DOGREPONOOK_PORT"];
+                if (port is null) throw new ConfigFileReadError("Check appsettings.json; ENV Var DOGREPONOOK_PORT not found.");
+                return port;
+            }
+        }
+        public string DO_ENCRYPT
+        {
+            get
+            {
+                string doEncrypt = _configuration["DO_ENCRYPT"];
+                if (doEncrypt is null) throw new ConfigFileReadError("Check appsettings.json; ENV Var DO_ENCRYPT not found.");
+                return doEncrypt;
+            }
+        }
+        public string ENCRYPTION_KEY
+        {
+            get
+            {
+                string key = _configuration["ENCRYPTION_KEY"];
+                if (key is null) throw new ConfigFileReadError("Check appsettings.json; ENV Var ENCRYPTION_KEY not found.");
+                return key;
             }
         }
     }

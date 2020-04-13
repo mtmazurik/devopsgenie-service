@@ -40,7 +40,6 @@ namespace DevopsGenie.Service.Common
             repoObject.key = "key";
             repoObject.tags = new string[] { "tag1", "tag2"};
             repoObject.createdBy = "DOG-SVC";
-            _encryption.EncryptionKey = repoObject.createdBy;
             repoObject.createdDate = DateTime.Now;
             repoObject.modifiedBy = "DOG-SVC";
             repoObject.modifiedDate = DateTime.Now;
@@ -49,18 +48,38 @@ namespace DevopsGenie.Service.Common
             repoObject.collection = "config";
             repoObject.validate = false;
             repoObject.schemaUri = "";
-            repoObject.data = _encryption.encrypt(JsonConvert.SerializeObject(document)); 
+            if (DoEncrypt == true)
+            {
+                repoObject.data = _encryption.encrypt(JsonConvert.SerializeObject(document));
+            }
+            else
+            {
+                repoObject.data = JsonConvert.SerializeObject(document);
+            }
 
             HttpContent body = new StringContent(JsonConvert.SerializeObject(repoObject), Encoding.UTF8, "application/json");
 
             string uri = BuildURI();
             uri = uri + "/" + db + "/" + collection;
-            return uri; // debug - see what secret is being used
+            return _encryption.EncryptionKey ; // debug - see what secret value is
             HttpResponseMessage result = _client.SendAsync(FormatRequest(HttpMethod.Post, uri, body)).Result;
 
             apiResponse = result.Content.ReadAsStringAsync().Result;
 
             return apiResponse;
+        }
+        private Boolean DoEncrypt   // read-only property
+        {
+            get
+            { 
+                bool doEncrypt = _config.DO_ENCRYPT.Equals("true", StringComparison.OrdinalIgnoreCase);
+                if (doEncrypt)
+                {
+                    _encryption.EncryptionKey = _config.ENCRYPTION_KEY;
+                }
+
+                return doEncrypt;
+            }
         }
         private string BuildURI()
         {

@@ -23,13 +23,23 @@ spec:
           - name: DOGREPONOOK_URI
             valueFrom:
               secretKeyRef:
-                name: dog-reponook-uri-info 
+                name: dog-svc-reponook-uri-info 
                 key: dog-reponook-uri
           - name: DOGREPONOOK_PORT
             valueFrom:
               secretKeyRef:
-                name: dog-reponook-uri-info
+                name: dog-svc-reponook-uri-info
                 key: dog-reponook-port
+          - name: DO_ENCRYPT
+            valueFrom:
+              secretKeyRef:
+                name: dog-svc-encryption-info
+                key: dog-do-encrypt
+          - name: ENCRYPTION_KEY
+            valueFrom:
+              secretKeyRef:
+                name: dog-svc-encryption-info
+                key: dog-encryption-key
         livenessProbe:
           httpGet:
             path: /admin/ping
