@@ -26,7 +26,14 @@ pipeline {
         }
       }
     }
-    stage('K8s deploy') {
+    stage('Delete prev deployment') {
+      steps{
+        container('kubectl') {
+          sh("kubectl delete deployment dog-deployment")
+        }
+      }
+    }
+    stage('New deployment') {
       steps{
         script {
           kubernetesDeploy(
