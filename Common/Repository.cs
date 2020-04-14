@@ -30,22 +30,32 @@ namespace DevopsGenie.Service.Common
             _encryption = encryption;
         }
 
-        public string CreateDocument(string db, string collection, string document)
+        public string CreateDocument(string db, string collection, string body)
         {
             string apiResponse;
 
-            RepositoryModel repoObject = new RepositoryModel();
+            ParseMetadataFromBody(body
+                      , out string id
+                      , out string key
+                      , out string[] tags
+                      , out string app
+                      , out string document);
 
-            repoObject._id = Guid.NewGuid();
-            repoObject.key = "key";
-            repoObject.tags = new string[] { "tag1", "tag2"};
+
+            RepositoryModel repoObject = new RepositoryModel();
+            if (id == string.Empty)
+            {
+                repoObject._id = Guid.NewGuid();
+            }
+            repoObject.key = key;
+            repoObject.tags = tags;
             repoObject.createdBy = "DOG-SVC";
             repoObject.createdDate = DateTime.Now;
-            repoObject.modifiedBy = "DOG-SVC";
+            repoObject.modifiedBy = "DOG-SVC";,
             repoObject.modifiedDate = DateTime.Now;
-            repoObject.app = "DOG";
-            repoObject.repository = "tenant";
-            repoObject.collection = "config";
+            repoObject.app = app;
+            repoObject.repository = db;
+            repoObject.collection = collection;
             repoObject.validate = false;
             repoObject.schemaUri = "";
             if (DoEncrypt == true)
@@ -57,17 +67,35 @@ namespace DevopsGenie.Service.Common
                 repoObject.data = JsonConvert.SerializeObject(document);
             }
 
-            HttpContent body = new StringContent(JsonConvert.SerializeObject(repoObject), Encoding.UTF8, "application/json");
+            HttpContent outBody = new StringContent(JsonConvert.SerializeObject(repoObject), Encoding.UTF8, "application/json");
 
             string uri = BuildURI();
             uri = uri + "/" + db + "/" + collection;
             // return _encryption.EncryptionKey ; // debug - see what secret value is
-            HttpResponseMessage result = _client.SendAsync(FormatRequest(HttpMethod.Post, uri, body)).Result;
+            HttpResponseMessage result = _client.SendAsync(FormatRequest(HttpMethod.Post, uri, outBody)).Result;
 
             apiResponse = result.Content.ReadAsStringAsync().Result;
 
             return apiResponse;
         }
+
+        private void ParseMetadataFromBody(string body, out string id, out string key, out string[] tags, out string app, out string document)
+        {
+            try
+            {
+                JObject data = JObject.Parse(body);
+                id = data["metadata"].["id"];
+                key = data["metadata"].["key"];
+                tags = data["metadata"].["tags"];
+                app = data["metadata"].["app"];
+                document = data["document"].ToString();
+            }
+            catch( Exception exc)
+            {
+                throw new APIBodyParseError(exc.Message)
+            }
+        }
+
         private Boolean DoEncrypt   // read-only property
         {
             get

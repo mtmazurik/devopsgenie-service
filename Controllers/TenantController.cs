@@ -16,11 +16,11 @@ namespace DevopsGenie.Service.Controllers
     public class TenantController : ControllerBase
     {
         [HttpPost("{tenantId}/config")]
-        public ActionResult<string> PostConfig([FromServices]ITenantConfigService tenantConfigSvc, string tenantId, [FromBody]JObject innerData) 
+        public ActionResult<string> PostConfig([FromServices]ITenantConfigService tenantConfigSvc, string tenantId, [FromBody]JObject body) 
         {
             try
             {
-                string result = tenantConfigSvc.CreateConfig(innerData.ToString());
+                string result = tenantConfigSvc.CreateConfig(body.ToString());
                 return Ok(result);
             }
             catch (Exception exc)
