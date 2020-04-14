@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Collections;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using DevopsGenie.Service.Common.Models;
@@ -37,7 +38,7 @@ namespace DevopsGenie.Service.Common
             ParseMetadataFromBody(body
                       , out string id
                       , out string key
-                      , out string[] tags
+                      , out string tags
                       , out string app
                       , out string document);
 
@@ -48,10 +49,10 @@ namespace DevopsGenie.Service.Common
                 repoObject._id = Guid.NewGuid();
             }
             repoObject.key = key;
-            repoObject.tags = tags;
+            repoObject.tags = JsonConvert.DeserializeObject<string[]>(tags);
             repoObject.createdBy = "DOG-SVC";
             repoObject.createdDate = DateTime.Now;
-            repoObject.modifiedBy = "DOG-SVC";,
+            repoObject.modifiedBy = "DOG-SVC";
             repoObject.modifiedDate = DateTime.Now;
             repoObject.app = app;
             repoObject.repository = db;
@@ -79,20 +80,25 @@ namespace DevopsGenie.Service.Common
             return apiResponse;
         }
 
-        private void ParseMetadataFromBody(string body, out string id, out string key, out string[] tags, out string app, out string document)
+        private void ParseMetadataFromBody(string body, out string id, out string key, out string tags, out string app, out string document)
         {
             try
             {
+                id = string.Empty;
+                key = string.Empty;
+                tags = string.Empty;
+                app = string.Empty;
+                document = string.Empty;
                 JObject data = JObject.Parse(body);
-                id = data["metadata"].["id"];
-                key = data["metadata"].["key"];
-                tags = data["metadata"].["tags"];
-                app = data["metadata"].["app"];
+                id = (string)data["metadata"]["id"];
+                key = (string)data["metadata"]["key"];
+                tags = data["metadata"]["tags"].ToString();
+                app = (string)data["metadata"]["app"];
                 document = data["document"].ToString();
             }
             catch( Exception exc)
             {
-                throw new APIBodyParseError(exc.Message)
+                throw new APIBodyParseError(exc.Message);
             }
         }
 
