@@ -34,7 +34,7 @@ namespace DevopsGenie.Service.Common
         public string CreateDocument(string db, string collection, string body)
         {
             string apiResponse;
-
+            return body;
             ParseMetadataFromBody(body
                       , out string id
                       , out string key
