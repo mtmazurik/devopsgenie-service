@@ -109,7 +109,7 @@ namespace DevopsGenie.Service.Common
             {
                 foreach (JProperty property in result.Properties())
                 {
-                    string tag = "property.Name" + ":" + property.Value.ToString();
+                    string tag = property.Name + ":" + property.Value.ToString();
                     list.Add(tag);
                 }
             }
