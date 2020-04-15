@@ -20,7 +20,6 @@ namespace DevopsGenie.Service.Common
     // DAL that uses the RepositoryModel (an exact RepoNook model object, must match the Reponook model from DevopsGenie-Reponook service)
     public class Repository : IRepository
     {
-        private string REPONOOK_URI;
         private HttpClient _client;
         private IJsonConfiguration _config;
         private IEncryption _encryption;
@@ -39,7 +38,7 @@ namespace DevopsGenie.Service.Common
             ParseMetadataFromBody(body
                       , out string id
                       , out string key
-                      , out KeyValuePairModel[] tags
+                      , out IEnumerable<string> tags
                       , out string app
                       , out string document);
 
@@ -50,7 +49,7 @@ namespace DevopsGenie.Service.Common
                 repoObject._id = Guid.NewGuid();
             }
             repoObject.key = key;
-            repoObject.tags = null;
+            repoObject.tags = tags;
             repoObject.createdBy = "DOG-SVC";
             repoObject.createdDate = DateTime.Now;
             repoObject.modifiedBy = "DOG-SVC";
@@ -81,7 +80,7 @@ namespace DevopsGenie.Service.Common
             return apiResponse;
         }
 
-        private void ParseMetadataFromBody(string body, out string id, out string key, out KeyValuePairModel[] tags, out string app, out string document)
+        private void ParseMetadataFromBody(string body, out string id, out string key, out IEnumerable<string> tags, out string app, out string document)
         {
             id = string.Empty;
             key = string.Empty;
@@ -96,25 +95,25 @@ namespace DevopsGenie.Service.Common
             app = (string)data["metadata"]["app"];
             document = data["document"].ToString();
         }
-
         // TranslateTags: routine plucks from JSON and puts in C# array;
         // to pass to the other service (which puts back into JSON ... should we just use a simple string for tags?
         // maybe not, if the back end service will use tags as indexes eventually? the separation might be good here
-        private void TranslateTags(string body, ref KeyValuePairModel[] tags)
+        private void TranslateTags(string body, ref IEnumerable<string> tags)
         {
             var resultObjects = AllChildren(JObject.Parse(body))
                                    .First(c => c.Type == JTokenType.Array && c.Path.Contains("tags"))
                                    .Children<JObject>();
 
-            List<KeyValuePairModel> list = new List<KeyValuePairModel>();
+            List<string> list = new List<string>();
             foreach (JObject result in resultObjects)
             {
                 foreach (JProperty property in result.Properties())
                 {
-                    list.Add(new KeyValuePairModel(property.Name, property.Value.ToString()));
+                    string tag = "property.Name" + ":" + property.Value.ToString();
+                    list.Add(tag);
                 }
             }
-            tags = list.ToArray();
+            tags = list;
         }
         // recursively yield all children of json
         private IEnumerable<JToken> AllChildren(JToken json)
