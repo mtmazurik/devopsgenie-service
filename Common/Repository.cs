@@ -7,12 +7,13 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Collections;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using DevopsGenie.Service.Common.Models;
 using devopsgenie.service.Config;
 using devopsgenie.service.Common;
 using DevopsGenie.Reponook.Exceptions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using devopsgenie.service.Common.Models;
 
 namespace DevopsGenie.Service.Common
 {
@@ -34,11 +35,11 @@ namespace DevopsGenie.Service.Common
         public string CreateDocument(string db, string collection, string body)
         {
             string apiResponse;
-            return body;
+
             ParseMetadataFromBody(body
                       , out string id
                       , out string key
-                      , out string tags
+                      , out KeyValuePairModel[] tags
                       , out string app
                       , out string document);
 
@@ -49,7 +50,7 @@ namespace DevopsGenie.Service.Common
                 repoObject._id = Guid.NewGuid();
             }
             repoObject.key = key;
-            repoObject.tags = JsonConvert.DeserializeObject<string[]>(tags);
+            repoObject.tags = null;
             repoObject.createdBy = "DOG-SVC";
             repoObject.createdDate = DateTime.Now;
             repoObject.modifiedBy = "DOG-SVC";
@@ -72,7 +73,7 @@ namespace DevopsGenie.Service.Common
 
             string uri = BuildURI();
             uri = uri + "/" + db + "/" + collection;
-            // return _encryption.EncryptionKey ; // debug - see what secret value is
+
             HttpResponseMessage result = _client.SendAsync(FormatRequest(HttpMethod.Post, uri, outBody)).Result;
 
             apiResponse = result.Content.ReadAsStringAsync().Result;
@@ -80,28 +81,53 @@ namespace DevopsGenie.Service.Common
             return apiResponse;
         }
 
-        private void ParseMetadataFromBody(string body, out string id, out string key, out string tags, out string app, out string document)
+        private void ParseMetadataFromBody(string body, out string id, out string key, out KeyValuePairModel[] tags, out string app, out string document)
         {
-            try
-            {
-                id = string.Empty;
-                key = string.Empty;
-                tags = string.Empty;
-                app = string.Empty;
-                document = string.Empty;
-                JObject data = JObject.Parse(body);
-                id = (string)data["metadata"]["id"];
-                key = (string)data["metadata"]["key"];
-                tags = data["metadata"]["tags"].ToString();
-                app = (string)data["metadata"]["app"];
-                document = data["document"].ToString();
-            }
-            catch( Exception exc)
-            {
-                throw new APIBodyParseError(exc.Message);
-            }
+            id = string.Empty;
+            key = string.Empty;
+            tags = null;
+            app = string.Empty;
+            document = string.Empty;
+            JObject data = JObject.Parse(body);
+
+            id = (string)data["metadata"]["id"];
+            key = (string)data["metadata"]["key"];
+            TranslateTags(body, ref tags);
+            app = (string)data["metadata"]["app"];
+            document = data["document"].ToString();
         }
 
+        // TranslateTags: routine plucks from JSON and puts in C# array;
+        // to pass to the other service (which puts back into JSON ... should we just use a simple string for tags?
+        // maybe not, if the back end service will use tags as indexes eventually? the separation might be good here
+        private void TranslateTags(string body, ref KeyValuePairModel[] tags)
+        {
+            var resultObjects = AllChildren(JObject.Parse(body))
+                                   .First(c => c.Type == JTokenType.Array && c.Path.Contains("tags"))
+                                   .Children<JObject>();
+
+            List<KeyValuePairModel> list = new List<KeyValuePairModel>();
+            foreach (JObject result in resultObjects)
+            {
+                foreach (JProperty property in result.Properties())
+                {
+                    list.Add(new KeyValuePairModel(property.Name, property.Value.ToString()));
+                }
+            }
+            tags = list.ToArray();
+        }
+        // recursively yield all children of json
+        private IEnumerable<JToken> AllChildren(JToken json)
+        {
+            foreach (var c in json.Children())
+            {
+                yield return c;
+                foreach (var cc in AllChildren(c))
+                {
+                    yield return cc;
+                }
+            }
+        }
         private Boolean DoEncrypt   // read-only property
         {
             get
