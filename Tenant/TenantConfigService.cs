@@ -24,9 +24,9 @@ namespace DevopsGenie.Service.Tenant
             _repository = repository;
         }
 
-        public string CreateConfig(string configInfo)
+        public string CreateConfig(string body)
         {
-            return _repository.CreateDocument(CONFIG_DB_NAME, CONFIG_COLLECTION_NAME, configInfo);
+            return _repository.CreateDocument(CONFIG_DB_NAME, CONFIG_COLLECTION_NAME, body);
         }
 
         public string ReadConfig()

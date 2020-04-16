@@ -8,6 +8,7 @@ namespace DevopsGenie.Service.Common.Models
     public class RepositoryModel
     {
         public object _id { get; set; }
+        public string tenant { get; set; }
         public string key { get; set; }
         public IEnumerable<string> tags { get; set; }
         public DateTime createdDate { get; set; }

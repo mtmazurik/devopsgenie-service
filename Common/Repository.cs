@@ -37,6 +37,7 @@ namespace DevopsGenie.Service.Common
 
             ParseMetadataFromBody(body
                       , out string id
+                      , out string tenant
                       , out string key
                       , out IEnumerable<string> tags
                       , out string app
@@ -48,6 +49,7 @@ namespace DevopsGenie.Service.Common
             {
                 repoObject._id = Guid.NewGuid();
             }
+            repoObject.tenant = tenant;
             repoObject.key = key;
             repoObject.tags = tags;
             repoObject.createdBy = "DOG-SVC";
@@ -83,9 +85,10 @@ namespace DevopsGenie.Service.Common
         {
             return null;
         }
-        private void ParseMetadataFromBody(string body, out string id, out string key, out IEnumerable<string> tags, out string app, out string document)
+        private void ParseMetadataFromBody(string body, out string id, out string tenant, out string key, out IEnumerable<string> tags, out string app, out string document)
         {
             id = string.Empty;
+            tenant = string.Empty;
             key = string.Empty;
             tags = null;
             app = string.Empty;
@@ -93,6 +96,7 @@ namespace DevopsGenie.Service.Common
             JObject data = JObject.Parse(body);
 
             id = (string)data["metadata"]["id"];
+            tenant = (string)data["metadata"]["tenant"];
             key = (string)data["metadata"]["key"];
             TranslateTags(body, ref tags);
             app = (string)data["metadata"]["app"];
