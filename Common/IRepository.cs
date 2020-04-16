@@ -7,5 +7,6 @@ namespace DevopsGenie.Service.Common
     public interface IRepository
     {
         string CreateDocument(string db, string collection, string document);
+        GetDocument();
     }
 }

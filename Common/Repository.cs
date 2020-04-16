@@ -61,11 +61,11 @@ namespace DevopsGenie.Service.Common
             repoObject.schemaUri = "";
             if (DoEncrypt == true)
             {
-                repoObject.data = _encryption.encrypt(JsonConvert.SerializeObject(document));
+                repoObject.data = _encryption.encrypt(document);
             }
             else
             {
-                repoObject.data = JsonConvert.SerializeObject(document);
+                repoObject.data = document;
             }
 
             HttpContent outBody = new StringContent(JsonConvert.SerializeObject(repoObject), Encoding.UTF8, "application/json");
@@ -79,7 +79,10 @@ namespace DevopsGenie.Service.Common
 
             return apiResponse;
         }
-
+        private RepositoryModel GetDocument(string key, string tag )
+        {
+            return null;
+        }
         private void ParseMetadataFromBody(string body, out string id, out string key, out IEnumerable<string> tags, out string app, out string document)
         {
             id = string.Empty;
