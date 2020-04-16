@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using DevopsGenie.Service.Tenant;
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
-using devopsgenie.service.Common.Models;
+using DevopsGenie.Service.Common.Models;
 
 namespace DevopsGenie.Service.Controllers
 {

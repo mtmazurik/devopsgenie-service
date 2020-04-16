@@ -13,7 +13,7 @@ using devopsgenie.service.Common;
 using DevopsGenie.Reponook.Exceptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using devopsgenie.service.Common.Models;
+using DevopsGenie.Service.Common.Models;
 
 namespace DevopsGenie.Service.Common
 {
@@ -79,7 +79,7 @@ namespace DevopsGenie.Service.Common
 
             return apiResponse;
         }
-        private RepositoryModel GetDocument(string key, string tag )
+        public RepositoryModel GetDocument(string key, string tag )
         {
             return null;
         }
