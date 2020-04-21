@@ -35,7 +35,7 @@ namespace DevopsGenie.Service.Common
         public async Task<List<RepositoryModel>> GetDocumentByKeyAndTag(string tenantId, string db, string collection, string key, string tag)
         {
             string uri = BuildURI();
-            uri = uri + "/" + tenantId + "/" + db + "/" + collection + "/key/" + key + "/tag" + tag;
+            uri = uri + "/" + tenantId + "/" + db + "/" + collection + "/key/" + key + "/tag/" + tag;
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var response = await _client.GetAsync(uri);
             var returnList = await response.Content.ReadAsStringAsync();

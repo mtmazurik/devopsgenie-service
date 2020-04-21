@@ -31,8 +31,10 @@
       "publishAllPorts": true,
       "httpPort": 8190,
       "environmentVariables": {
-        "DOGREPONOOK_URI": "http://127.0.0.1",
-        "DOGREPONOOK_PORT": "81"
+        "DOGREPONOOK_URI": "http://10.244.1.21",
+        "DOGREPONOOK_PORT": "8191",
+        "DO_ENCRYPT": "False",
+        "ENCRYPTION_KEY": "none"
       }
     }
   }
