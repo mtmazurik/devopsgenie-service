@@ -1,4 +1,5 @@
 ﻿using DevopsGenie.Service.Common;
+using DevopsGenie.Service.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System;
@@ -29,9 +30,19 @@ namespace DevopsGenie.Service.Tenant
             return _repository.CreateDocument(CONFIG_DB_NAME, CONFIG_COLLECTION_NAME, body);
         }
 
-        public string ReadConfig()
+        public string ReadConfig(string tenantId)
         {
-            return  "NYI-not yet implemented";   // placeholder for async call to gRPC -> RepoNook
+            const string key = "UI_CONFIG";
+            const string tag = "type:imageRegistries";
+
+            Task<List<RepositoryModel>> task = Task.Run<List<RepositoryModel>>(async () => await ReadConfigAsync(tenantId, key, tag));
+            RepositoryModel repoObject = task.Result[0];
+            return repoObject.data;
+        }
+        private async Task<List<RepositoryModel>> ReadConfigAsync(string tenantId, string key, string tag)
+        {
+            List<RepositoryModel> result = await _repository.GetDocumentByKeyAndTag(tenantId, CONFIG_DB_NAME, CONFIG_COLLECTION_NAME, key, tag);
+            return result as List<RepositoryModel>;
         }
 
     }

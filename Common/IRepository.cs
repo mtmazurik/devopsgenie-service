@@ -2,12 +2,13 @@
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
 using DevopsGenie.Service.Common.Models;
+using System.Collections.Generic;
 
 namespace DevopsGenie.Service.Common
 {
     public interface IRepository
     {
         string CreateDocument(string db, string collection, string document);
-        RepositoryModel GetDocument(string key, string tag);
+        Task<List<RepositoryModel>> GetDocumentByKeyAndTag(string tenantId, string db, string collection, string key, string tag);
     }
 }

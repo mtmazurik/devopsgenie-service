@@ -7,7 +7,7 @@ namespace DevopsGenie.Service.Tenant
 {
     public interface ITenantConfigService
     {
-        string CreateConfig(string s);
-        string ReadConfig();
+        string CreateConfig(string body);
+        string ReadConfig(string tenantId);
     }
 }

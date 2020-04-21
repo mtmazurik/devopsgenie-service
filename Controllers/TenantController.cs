@@ -12,10 +12,11 @@ using DevopsGenie.Service.Common.Models;
 namespace DevopsGenie.Service.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/")]
     public class TenantController : ControllerBase
     {
-        [HttpPost("{tenantId}/config")]
+        // POST create config
+        [HttpPost("/config")]
         public ActionResult<string> PostConfig([FromServices]ITenantConfigService tenantConfigSvc, string tenantId, [FromBody]JObject body) 
         {
             try
@@ -29,21 +30,21 @@ namespace DevopsGenie.Service.Controllers
             }
         }
 
-        //GET: tenant/config
-        //[HttpGet("{tenantId}/config")]
-        //public ActionResult<string> GetConfig([FromServices]ITenantConfigService tenantConfigSvc)
-        //{
-        //    try
-        //    {
-        //        string result = tenantConfigSvc.ReadConfig();
-        //        return Ok(result);
-        //    }
-        //    catch(Exception exc)
-        //    {
-        //        return BadRequest(exc.Message);
-        //    }
+        // GET read config
+        [HttpGet("/tenant/{tenantId}/config")]
+        public ActionResult<string> GetConfig([FromServices]ITenantConfigService tenantConfigSvc, string tenantId)
+        {
+            try
+            {
+                string result = tenantConfigSvc.ReadConfig(tenantId);
+                return Ok(result);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest(exc.Message);
+            }
 
-        //}
+        }
 
     }
 }

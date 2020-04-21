@@ -14,6 +14,7 @@ using DevopsGenie.Reponook.Exceptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using DevopsGenie.Service.Common.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DevopsGenie.Service.Common
 {
@@ -29,6 +30,16 @@ namespace DevopsGenie.Service.Common
             _client = client;
             _config = config;
             _encryption = encryption;
+        }
+
+        public async Task<List<RepositoryModel>> GetDocumentByKeyAndTag(string tenantId, string db, string collection, string key, string tag)
+        {
+            string uri = BuildURI();
+            uri = uri + "/" + tenantId + "/" + db + "/" + collection + "/key/" + key + "/tag" + tag;
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var response = await _client.GetAsync(uri);
+            var returnList = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<RepositoryModel>>(returnList).ToList<RepositoryModel>();
         }
 
         public string CreateDocument(string db, string collection, string body)
@@ -80,10 +91,6 @@ namespace DevopsGenie.Service.Common
             apiResponse = result.Content.ReadAsStringAsync().Result;
 
             return apiResponse;
-        }
-        public RepositoryModel GetDocument(string key, string tag )
-        {
-            return null;
         }
         private void ParseMetadataFromBody(string body, out string id, out string tenant, out string key, out IEnumerable<string> tags, out string app, out string document)
         {
